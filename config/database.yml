@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: nuuvem_development
+  pool: 2
+  host: postgres
+  username: 'postgres'
+  password: 'postgres'

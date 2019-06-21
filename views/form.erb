@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Total Gross</title>
+    </head>
+    <body>
+        <% @merchants.each do |name, total_gross| %>
+          <b><%= name %>:</b> 
+          <%= total_gross %><br />
+        <% end %>
+
+        <% if @total_gross %>
+          <b>Total Gross:</b> <%= @total_gross %>
+        <% end %>
+
+        <h1>Upload tab separeted value file</h1>
+        
+        <form action="/receive_data" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+        </form>
+    </body>
+</html>

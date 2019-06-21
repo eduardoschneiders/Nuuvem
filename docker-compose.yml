@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-nuuvem
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+  app:
+    build: .
+    container_name: app-nuuvem
+    environment:
+      - "SINATRA_ENV=development"
+    command: rerun --background 'bundle exec rackup --host 0.0.0.0 -p 3000'
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+volumes:
+  pg_data:

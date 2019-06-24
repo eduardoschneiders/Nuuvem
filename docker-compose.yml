@@ -15,7 +15,7 @@ services:
     container_name: app-nuuvem
     environment:
       - "SINATRA_ENV=development"
-    command: rerun --background 'bundle exec rackup --host 0.0.0.0 -p 3000'
+    command: ./scripts/start
     tty: true
     stdin_open: true
     volumes:

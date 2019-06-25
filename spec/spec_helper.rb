@@ -1,10 +1,12 @@
 require 'rack/test'
 require 'rspec'
+require 'bundler/setup'
 
 ENV['RACK_ENV'] = 'test'
 
 require 'active_record'
 require File.expand_path '../../app.rb', __FILE__
+Bundler.require
 
 
 module RSpecMixin

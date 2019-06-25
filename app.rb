@@ -11,6 +11,7 @@ end
 
 
 post '/receive_data' do
+  # require 'pry'; binding.pry
   file = params[:file][:tempfile]
 
   first_line = true
@@ -24,7 +25,7 @@ post '/receive_data' do
       next
     end
 
-    purchaser_name, item_description, item_price, purchase_count, merchant_address, merchant_name = line.gsub("\n", "").split("\t")
+    purchaser_name, item_description, item_price, purchase_count, merchant_address, merchant_name = line.gsub("\n", "").gsub("\r", "").split("\t")
 
     purchaser = create_purchaser(purchaser_name)
     merchant = create_merchant(merchant_name, merchant_address)

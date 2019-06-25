@@ -1,5 +1,18 @@
 require File.expand_path '../spec_helper.rb', __FILE__
 
+describe Purchase do
+  let(:items) { [ double(price: 3) ] }
+
+  before do
+    allow_any_instance_of(Purchase).to receive(:items).and_return(items)
+  end
+
+  it 'should sum total gross' do
+    p = Purchase.new(count: 4)
+    expect(p.total_gross).to eq(12)
+  end
+end
+
 describe "My Sinatra Application" do
   it "should allow accessing the home page" do
     get '/'
@@ -8,9 +21,9 @@ describe "My Sinatra Application" do
 
 
   it "should allow send data" do
-  	file = Rack::Test::UploadedFile.new(
-  		File.expand_path '../fixtures/example.tab', __FILE__
-  	)
+    file = Rack::Test::UploadedFile.new(
+      File.expand_path '../fixtures/example.tab', __FILE__
+    )
 
     post '/receive_data', { file: file }
     expect(last_response).to be_ok

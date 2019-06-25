@@ -11,7 +11,6 @@ end
 
 
 post '/receive_data' do
-  # require 'pry'; binding.pry
   file = params[:file][:tempfile]
 
   first_line = true

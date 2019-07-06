@@ -2,8 +2,8 @@
 # TODO create in batches
 
 class PurchaseBuilder
-  def self.build(data)
-    values = clear_values(data)
+  def self.build(line_data)
+    values = clear_values(line_data)
     
     purchaser_name    = values[0]
     item_description  = values[1]
@@ -11,7 +11,7 @@ class PurchaseBuilder
     purchase_count    = values[3]
     merchant_address  = values[4]
     merchant_name     = values[5]
-  
+
     Purchase.new(
       purchaser: Purchaser.find_or_initialize_by(name: purchaser_name),
       items: [ Item.new(description: item_description, price: item_price) ],
@@ -24,7 +24,7 @@ class PurchaseBuilder
 
   private
 
-  def self.clear_values(data)
-    data.gsub("\n", "").gsub("\r", "").split("\t")
+  def self.clear_values(line_data)
+    line_data.gsub("\n", "").gsub("\r", "").split("\t")
   end
 end

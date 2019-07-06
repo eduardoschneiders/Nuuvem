@@ -22,7 +22,7 @@ describe "My Sinatra Application" do
   end
 
   it 'should accept big file' do
-    file = Rack::Test::UploadedFile.new(build_file)
+    file = Rack::Test::UploadedFile.new(build_file(number_of_lines: 1_000))
 
     post '/receive_data', { file: file }
     expect(last_response).to be_ok
@@ -30,9 +30,9 @@ describe "My Sinatra Application" do
 
   private 
 
-  def build_file
+  def build_file(number_of_lines: 1000)
     Tempfile.new.tap do |file|
-      lines = 1000.times.map do
+      lines = number_of_lines.times.map do
         build_line
       end.join
 

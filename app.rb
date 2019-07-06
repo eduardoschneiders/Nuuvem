@@ -17,7 +17,7 @@ post '/receive_data' do
   @total_gross = 0
 
   @merchants = {}
-
+  time = Time.now
   file.each_line do |line|
     if first_line
       first_line = false
@@ -30,6 +30,7 @@ post '/receive_data' do
     merchant = create_merchant(merchant_name, merchant_address)
     purchase = create_purchase(purchaser, merchant, purchase_count)
     item = create_item(item_description, item_price, purchase)
+    
     @total_gross += purchase.total_gross
 
     if @merchants[merchant.name]
@@ -38,7 +39,9 @@ post '/receive_data' do
       @merchants[merchant.name] = purchase.total_gross
     end
   end
-  
+
+  Logger.new(STDOUT).info("Total Time taked: #{Time.now - time}")
+
   erb :form
 end
 

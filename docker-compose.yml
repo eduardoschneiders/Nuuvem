@@ -20,10 +20,18 @@ services:
     stdin_open: true
     volumes:
       - .:/app
+      - box:/box
     ports:
       - "3000:3000"
     depends_on:
       - postgres
+      - box
+
+  box:
+    image: busybox
+    volumes:
+      - box:/box
 
 volumes:
   pg_data:
+  box:

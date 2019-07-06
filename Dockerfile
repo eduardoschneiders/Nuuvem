@@ -6,6 +6,7 @@ WORKDIR /app
 ADD Gemfile /app
 ADD Gemfile.lock /app
 
+ENV BUNDLE_PATH /box
 RUN bundle install
 
 ADD . /app

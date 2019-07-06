@@ -9,7 +9,7 @@ describe "My Sinatra Application" do
 
   it "should allow send data" do
     file = Rack::Test::UploadedFile.new(
-      File.expand_path '../fixtures/example.tab', __FILE__
+      File.expand_path '../../fixtures/example.tab', __FILE__
     )
 
     post '/receive_data', { file: file }
@@ -32,7 +32,7 @@ describe "My Sinatra Application" do
 
   def build_file
     Tempfile.new.tap do |file|
-      lines = 10000.times.map do
+      lines = 1000.times.map do
         build_line
       end.join
 

@@ -34,3 +34,17 @@ RSpec.configure do |config|
 
   config.include RSpecMixin
 end
+
+module Helper
+  def build_line
+    purchase = build(:purchase, :complete)
+    [
+      purchase.purchaser.name,
+      purchase.items.first.description,
+      purchase.items.first.price,
+      purchase.count,
+      purchase.merchant.address,
+      purchase.merchant.name,
+    ].join("\t") + "\n"
+  end
+end

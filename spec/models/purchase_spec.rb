@@ -1,14 +1,17 @@
 require File.expand_path '../../spec_helper.rb', __FILE__
+include Helper
 
 describe Purchase do
-  let(:items) { [ double(price: 3) ] }
+  describe :total_gross do
+    let(:purchase) do 
+      create(:purchase,
+        count: 4,
+        items: 2.times.map { build(:item, price: 3) }
+      )
+    end
 
-  before do
-    allow_any_instance_of(Purchase).to receive(:items).and_return(items)
-  end
-
-  it 'should sum total gross' do
-    p = Purchase.new(count: 4)
-    expect(p.total_gross).to eq(12)
+    it 'should sum total gross' do
+      expect(purchase.total_gross).to eq(24)
+    end
   end
 end

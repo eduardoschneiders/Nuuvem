@@ -5,6 +5,6 @@ class Purchase < ActiveRecord::Base
   has_many :items
 
   def total_gross
-    items.inject(0) { |total, item| total += item.price * count }
+    items.sum(:price) * count 
   end
 end

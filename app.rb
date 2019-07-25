@@ -9,14 +9,12 @@ get '/' do
   erb :form
 end
 
-
 post '/receive_data' do
   file = params[:file][:tempfile]
 
   first_line = true
-  @total_gross = 0
+  purchases = []
 
-  @merchants = {}
   time = Time.now
   file.each_line do |line|
     if first_line
@@ -25,16 +23,16 @@ post '/receive_data' do
     end
 
     purchase = PurchaseBuilder.build(line)
-    purchase.save!
-    
-    @total_gross += purchase.total_gross
-
-    if @merchants[purchase.merchant.name]
-      @merchants[purchase.merchant.name] += purchase.total_gross
-    else
-      @merchants[purchase.merchant.name] = purchase.total_gross
-    end
+    purchases.push(purchase)
   end
+
+  Import.bulk_import(purchases)
+
+  @merchants = Merchant.all.inject({}) do |h, merchant|
+    h[merchant.name] =  merchant.purchases.inject(0) { |sum, p| sum += p.total_gross}
+    h
+  end
+
 
   Logger.new(STDOUT).info("Total Time taked: #{Time.now - time}")
 

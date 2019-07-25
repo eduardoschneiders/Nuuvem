@@ -6,6 +6,7 @@ ENV['RACK_ENV'] = 'test'
 
 require 'active_record'
 require File.expand_path '../../app.rb', __FILE__
+require File.expand_path '../../import.rb', __FILE__
 Bundler.require
 
 
@@ -27,6 +28,10 @@ RSpec.configure do |config|
   end
 
   config.around(:each) do |example|
+    ActiveRecord::Base.connection.tables.each do |t|
+      ActiveRecord::Base.connection.reset_pk_sequence!(t)
+    end
+
     DatabaseCleaner.cleaning do
       example.run
     end

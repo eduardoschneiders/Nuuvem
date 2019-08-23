@@ -18,5 +18,9 @@ describe PurchaseBuilder do
       expect(purchase.merchant.address).to eql("Merchant address 1")
       expect(purchase.merchant.name).to eql("Merchant name 1")
     end
+
+    context 'Two merchants' do
+      let(:line) { "Purchaser name 1\tDescription 1\t3\t4\tMerchant address 1\tMerchant name 1\n" }
+    end
   end
 end

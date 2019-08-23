@@ -53,12 +53,13 @@ class Import
       if relations.any?
         has_many_relations = relations.select { |_, r| r.instance_of?(ActiveRecord::Reflection::HasManyReflection) }
         belongs_to_relations = relations.select { |_, r| r.instance_of?(ActiveRecord::Reflection::BelongsToReflection) }
-
+  
         if has_many_relations.any?
           add_id_to_objects_and_references(objects, relations, model_class)
+
           include_id = true
         end
-
+        
         objects_from_relations(objects, has_many_relations).each do |objects|
           sql += SqlGenerator.new(objects, false).generate_sql
         end

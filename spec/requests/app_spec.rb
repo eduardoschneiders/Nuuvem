@@ -15,17 +15,20 @@ describe "My Sinatra Application" do
     post '/receive_data', { file: file }
     expect(last_response).to be_ok
     clear_response = last_response.body.gsub("\n", "").gsub("\s\s", "")
-
+    binding.pry
     expect(clear_response).to include("<b>Bob's Pizza:</b> 20")
     expect(clear_response).to include("<b>Tom's Awesome Shop:</b> 50")
     expect(clear_response).to include("<b>Sneaker Store Emporium:</b> 25")
   end
 
   it 'should accept big file' do
-    file = Rack::Test::UploadedFile.new(build_file(number_of_lines: 1_000))
+    Logger.new(STDOUT).info("Build file")
+
+    file = Rack::Test::UploadedFile.new(build_file(number_of_lines: 10_000))
+    Logger.new(STDOUT).info("End build")
 
     post '/receive_data', { file: file }
-    expect(last_response).to be_ok
+    # expect(last_response).to be_ok
   end
 
   private 

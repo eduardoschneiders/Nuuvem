@@ -15,7 +15,6 @@ post '/receive_data' do
   first_line = true
   purchases = []
 
-  time = Time.now
   file.each_line do |line|
     if first_line
       first_line = false
@@ -26,7 +25,10 @@ post '/receive_data' do
     purchases.push(purchase)
   end
 
+  time = Time.now
+  Logger.new(STDOUT).info("Start")
   Import.bulk_import(purchases)
+  Logger.new(STDOUT).info("Total Time taked: #{Time.now - time}")
 
   @merchants = Merchant.all.inject({}) do |h, merchant|
     h[merchant.name] =  merchant.purchases.inject(0) { |sum, p| sum += p.total_gross}
@@ -34,7 +36,6 @@ post '/receive_data' do
   end
 
 
-  Logger.new(STDOUT).info("Total Time taked: #{Time.now - time}")
 
   erb :form
 end
